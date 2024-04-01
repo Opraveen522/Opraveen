@@ -7,7 +7,7 @@ on:
 
 jobs:
   remove_duplicates:
-    runs-on: ubuntu-latest
+    runs-on: Ubuntu 23.10
 
     steps:
     - name: Checkout Repository
