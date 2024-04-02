@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main  # Or the branch you want to trigger the workflow on
-      - Testing branch
+      - Testing-branch
 
 jobs:
   remove_duplicates:
