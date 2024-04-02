@@ -12,7 +12,7 @@ df = spark.read.csv("employees.csv", header=True, inferSchema=True)
 df_no_duplicates = df.dropDuplicates()
 
 # Write the DataFrame without duplicates to a new CSV file
-df_no_duplicates.write.csv("employees_no_duplicates.csv", header=True)
+df_no_duplicates.write.csv("employees_no_duplicates_merged.csv", header=True)
 
 # Stop Spark session
 spark.stop()
