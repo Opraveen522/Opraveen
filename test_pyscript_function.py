@@ -3,6 +3,13 @@
 import pytest
 from spark_non_duplicate import remove_duplicates
 
+import pyspark
+pyspark.sql.SparkSession.builder \
+    .appName("MyApp") \
+    .config('spark.logConf', 'true') \
+    .config('spark.logLevel', 'ERROR') \
+    .getOrCreate()
+
 # Define test cases
 
 def test_remove_duplicates():
