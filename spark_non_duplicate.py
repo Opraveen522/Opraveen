@@ -1,19 +1,24 @@
 from pyspark.sql import SparkSession
 
-# Initialize Spark session
-spark = SparkSession.builder \
-    .appName("RemoveDuplicates") \
-    .getOrCreate()
+# Create a Spark session
+spark = SparkSession.builder.master("local[1]").appName("DuplicateRemoval").getOrCreate()
 
-# Read the CSV file into a DataFrame
-df = spark.read.csv("/home/opraveen/spark_files/employees.csv", header=True, inferSchema=True)
+# Read the first CSV file
+df1 = spark.read.csv("employees.csv")
 
-# Remove duplicates based on all columns
-df_no_duplicates = df.dropDuplicates()
+# Read the second CSV file
+df2 = spark.read.csv("employee2.csv")
 
-# Write the DataFrame without duplicates to a new CSV file
-df_no_duplicates.write.csv("/home/opraveen/spark_files/employees_no_duplicates.csv", header=True)
+# Remove duplicates from both DataFrames
+df1_no_duplicates = df1.dropDuplicates()
+df2_no_duplicates = df2.dropDuplicates()
 
-# Stop Spark session
+# Combine the non-duplicate data from both DataFrames
+final_df = df1_no_duplicates.union(df2_no_duplicates)
+
+# Write the final non-duplicate data to a new CSV file
+final_df.write.csv("non_dupli_records.csv", header=True)
+
+# Stop the Spark session
 spark.stop()
 
