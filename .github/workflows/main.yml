@@ -3,7 +3,7 @@ name: Remove Duplicates
 on:
   push:
     branches:
-      - main  # Or the branch you want to trigger the workflow on
+      - Testing-branch  # Or the branch you want to trigger the workflow on
 
 jobs:
   remove_duplicates:
