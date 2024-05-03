@@ -28,3 +28,9 @@ jobs:
 
       - name: Run PySpark script
         run: python test_trans.py
+        
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Automated commit: Update output CSV file"
+          branch: main
