@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, upper
+import os
 
 # Initialize Spark session
 spark = SparkSession.builder \
@@ -13,6 +14,12 @@ df = spark.read.option("header", True).csv("netflix_titles.csv")
 df_transformed = df.withColumn("description", upper(col("description")))
 
 # Write transformed DataFrame to output location
-df_transformed.write.mode("overwrite").csv("op_output.csv")
+output_path = "op_output.csv"
+df_transformed.write.mode("overwrite").csv(output_path)
 
+# Stop Spark session
 spark.stop()
+
+# Remove ".crc" suffix from the output file name
+if os.path.isfile(output_path + ".crc"):
+    os.remove(output_path + ".crc")
