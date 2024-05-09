@@ -1,34 +1,22 @@
-name: PySpark Job
-
+name: Deploy File to Local System
 on:
   push:
     branches:
       - main  # Trigger the workflow on pushes to the main branch
-
 jobs:
-  run_pyspark_job:
-    runs-on: ubuntu-latest  # Use the latest version of Ubuntu as the runner
+  deploy_to_local:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2  # Checkout the repository code
 
-      - name: Set up Python
-        uses: actions/setup-python@v2  # Set up Python environment
+      - name: Deploy file to local system
+        uses: appleboy/ssh-action@master
         with:
-          python-version: '3.x'  # Use Python 3.x
-
-      - name: Install PySpark
-        run: |
-          pip install pyspark
-
-      - name: Run PySpark script
-        run: python test_trans.py
-
-      - name: Commit and push changes
-        run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          git add output.csv
-          git commit -m "Update output CSV file"
-          git push
+          host: localhost
+          username: opraveen
+          key: ${{ secrets.SSH_SECURE_SECRET }}
+          port: 22
+          script: |
+            scp $GITHUB_WORKSPACE/output.csv opraveen@localhost:/home/opraveen/airflow_workspace
